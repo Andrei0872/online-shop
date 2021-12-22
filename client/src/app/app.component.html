@@ -1,3 +1,39 @@
-<router-outlet></router-outlet>
+<header class="header">
+  <div class="logo">Online Shop</div>
 
-<h3>hello!</h3>
+  <nav class="nav">
+    <ul class="nav-items">
+      <li class="nav-items__item">
+        <!-- TODO: if logged in -->
+        <span>Hello, X</span>
+        <ul class="nav-items is-nested">
+          <li class="nav-items__item">Log out</li>
+          <li class="nav-items__item">Hello, X</li>
+        </ul>
+
+        <!-- TODO: else -->
+        <!-- <span>Log in</span> -->
+      </li>
+      
+      <!-- TODO: if logged in -->
+      <li class="nav-items__item">Cart: </li>
+    </ul>
+  </nav>
+</header>
+
+<aside class="aside">
+  <ul>
+    <li>Products</li>
+    <li>Orders</li>
+    <li>Users</li>
+  </ul>
+</aside>
+
+<main class="main">
+  <router-outlet></router-outlet>
+  Some main content here
+</main>
+
+<footer class="footer">
+  Footer content
+</footer>
