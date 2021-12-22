@@ -9,6 +9,7 @@
   font-family: 'Lobster', cursive;
   padding-inline: 2rem;
   font-size: clamp(1.1rem, 1.1rem + 0.9vw, 1.8rem);
+  color: var(--dark-blue-2-color);
 }
 
 .header {
@@ -112,5 +113,18 @@
       background-color: var(--dark-blue-2-color);
       color: #fff;
     }
+  }
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-block: .5rem;
+  background-color: var(--light-gray-color);
+
+  &__content {
+    color: var(--dark-blue-2-color);
+    font-style: italic;
   }
 }
