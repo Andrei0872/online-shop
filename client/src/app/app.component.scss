@@ -67,14 +67,12 @@
     position: relative;
     padding: .7rem;
     cursor: initial;
-    font-weight: initial;
-    color: initial;
-    text-align: center;
+    font-weight: bold;
+    color: var(--dark-blue-color);
 
     &:hover {
       cursor: pointer;
-      font-weight: bold;
-      color: var(--dark-blue-color);
+      background-color: var(--yellow-color);
     }
 
     &:hover > .is-nested {
