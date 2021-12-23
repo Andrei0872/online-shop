@@ -1,0 +1,41 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  overflow-y: auto;
+  padding-block-start: 2.5rem;
+}
+
+.single-order {
+  width: min(90%, 55rem);
+
+  &__header {
+    color: var(--dark-blue-color);
+  }
+
+  &__products {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  &__product {
+    display: flex;
+    justify-content: space-between;
+    border: 3px solid var(--dark-blue-color);
+    padding: .7rem .9em;
+
+    & span:not(.is-highlighted) {
+      font-weight: bold;
+    }
+  }
+
+  &__total {
+    text-align: right;
+    padding-inline-end: 1.6rem;
+    padding-block-start: .8rem;
+  }
+}

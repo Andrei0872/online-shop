@@ -1,0 +1,18 @@
+<article class="single-order" *ngIf="(order$ | async | computeTotalPrice) as order">
+  <h2 class="single-order__header">{{ headerMessage }} {{ order.id }}</h2>
+
+  <section class="single-order__body">
+    <ul class="single-order__products">
+      <li class="single-order__product" *ngFor="let p of order.products">
+        <div><span>Name: </span> <span class="is-highlighted">{{ p.name }}</span></div>
+        <div><span>Quantity: </span> <span class="is-highlighted">{{ p.quantity }}</span></div>
+        <div><span>Price: </span> <span class="is-highlighted">{{ p.price }}</span></div>
+      </li>
+    </ul>
+
+    <p class="single-order__total">
+      <b>Total: </b>
+      <span class="is-highlighted">{{ order.totalPrice || '...' }}</span>
+    </p>
+  </section>
+</article>
