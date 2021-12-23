@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { filter, map, Observable, tap } from 'rxjs';
-import { CurrentOrder } from '../order.model';
+import { CurrentOrder, OrderProduct } from '../order.model';
 import { OrderService } from '../order.service';
 
 @Component({
@@ -10,12 +10,16 @@ import { OrderService } from '../order.service';
   styleUrls: ['./single-order.component.scss']
 })
 export class SingleOrderComponent implements OnInit {
-  isInspectingExistingOrder = false;
+  orderId!: number;
   order$!: Observable<CurrentOrder | null>;
+
+  get isInspectingExistingOrder () {
+    return this.orderId !== -1;
+  }
 
   get headerMessage () {
     return this.isInspectingExistingOrder
-    ? 'Inspecting the order with the ID '
+    ? `Inspecting the order with the ID ${this.orderId}`
     : 'Inspecting the cart\'s content';
   }
 
@@ -30,19 +34,23 @@ export class SingleOrderComponent implements OnInit {
   }
 
   private initializeComponent () {
-    let { idOrCurrent } = this.route.snapshot.params;
-    idOrCurrent = +idOrCurrent;
+    this.route.params.subscribe(({ idOrCurrent }) => {
+      const existingOrderId = !isNaN(+idOrCurrent) && +idOrCurrent || null;
+      this.orderId = existingOrderId || -1;
+  
+      this.order$ = existingOrderId
+        ? this.orderService.currentOrder$.pipe(
+          map(o => o === null || +o.id !== +existingOrderId ? (this.orderService.fetchOrder(existingOrderId), false) : o),
+          filter(Boolean),
+        )
+        : this.orderService.cart$.pipe(
+          // Converting into `CurrentOrder`.
+          map(products => ({ id: -1, products, totalPrice: 0 }))
+        )
+    });
+  }
 
-    this.isInspectingExistingOrder = !isNaN(idOrCurrent);
-
-    const id = this.isInspectingExistingOrder && idOrCurrent || null;
-    if (!id) {
-      return;
-    }
-
-    this.order$ = this.orderService.currentOrder$.pipe(
-      map(o => o === null || +o.id !== +id ? (this.orderService.fetchOrder(id), false) : o),
-      filter(Boolean),
-    )
+  submitOrder (products: OrderProduct[]) {
+    this.orderService.submitOrder(products);
   }
 }

@@ -38,4 +38,25 @@
     padding-inline-end: 1.6rem;
     padding-block-start: .8rem;
   }
+
+  &__empty {
+    font-size: 2.3rem;
+    text-align: center;
+    color: var(--dark-blue-2-color);
+  }
+
+  &__submit {
+    background: var(--light-gray-color);
+    border: none;
+    padding: 0.5rem 0.7rem;
+    border-radius: 3px;
+    color: var(--dark-blue-color);
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1rem;
+
+    &:hover {
+      background-color: var(--yellow-color);
+    }
+  }
 }

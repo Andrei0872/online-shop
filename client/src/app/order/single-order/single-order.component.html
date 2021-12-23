@@ -1,6 +1,10 @@
 <article class="single-order" *ngIf="(order$ | async | computeTotalPrice) as order">
-  <h2 class="single-order__header">{{ headerMessage }} {{ order.id }}</h2>
+  <ng-container *ngTemplateOutlet="order.products.length ? orderTpl : empty; context: { $implicit: order }"></ng-container>
+</article>
 
+<ng-template #orderTpl let-order>
+  <h2 class="single-order__header">{{ headerMessage }}</h2>
+  
   <section class="single-order__body">
     <ul class="single-order__products">
       <li class="single-order__product" *ngFor="let p of order.products">
@@ -9,10 +13,22 @@
         <div><span>Price: </span> <span class="is-highlighted">{{ p.price }}</span></div>
       </li>
     </ul>
-
+  
     <p class="single-order__total">
       <b>Total: </b>
       <span class="is-highlighted">{{ order.totalPrice || '...' }}</span>
     </p>
   </section>
-</article>
+
+  <button
+    class="single-order__submit"
+    (click)="submitOrder(order.products)"
+    *ngIf="!isInspectingExistingOrder"
+  >
+    Submit order
+  </button>
+</ng-template>
+
+<ng-template #empty>
+  <p class="single-order__empty">The cart is empty!</p>
+</ng-template>
