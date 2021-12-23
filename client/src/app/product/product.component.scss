@@ -15,10 +15,39 @@
   color: var(--dark-blue-2-color);
   border-radius: 6px;
   transition: transform .1s ease;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    background-color: transparent;
+    inset: 0;
+  }
+
+  &::after {
+    content: 'Add to cart';
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    font-size: 2rem;
+    color: #fff;
+    z-index: 2;
+    transform: translateY(-2rem);
+    transition: opacity .3s;
+    opacity: 0;
+  }
   
   &:hover {
     transform: translateY(-2px);
     cursor: pointer;
+  }
+
+  &:hover::before {
+    background-color: rgba(0,0,0,0.5);
+  }
+
+  &:hover::after {
+    opacity: 1;
   }
 
   &__image {

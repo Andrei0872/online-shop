@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { map } from 'rxjs';
+import { OrderService } from './order/order.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'client';
+  get nrProductsInCart$ () {
+    return this.orderService.cart$.pipe(
+      map(products => products.reduce((acc, p) => p.quantity + acc, 0))
+    );
+  }
+
+  constructor (private orderService: OrderService) {}
 }

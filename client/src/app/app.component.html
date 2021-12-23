@@ -16,7 +16,7 @@
       </li>
       
       <!-- TODO: if logged in -->
-      <li class="nav-items__item">Cart: </li>
+      <li routerLink="orders/current" class="nav-items__item">Cart: {{ nrProductsInCart$ | async }}</li>
     </ul>
   </nav>
 </header>

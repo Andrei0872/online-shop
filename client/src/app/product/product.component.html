@@ -1,5 +1,6 @@
 <article
   class="product"
+  (click)="onProductClick(p)"
   *ngFor="let p of (products$ | async)"
 >
   <h2 class="product__header">{{ p.name }}</h2>
