@@ -106,7 +106,7 @@
     font-weight: bold;
     border: 3px solid #0d3e5a;
 
-    &:hover {
+    &:hover, &.is-active {
       cursor: pointer;
       background-color: var(--dark-blue-2-color);
       color: #fff;
