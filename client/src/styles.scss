@@ -19,3 +19,10 @@ html, body {
 body {
   font-family: 'Open Sans', sans-serif;
 }
+
+.is-highlighted {
+  background: var(--yellow-color);
+  border-radius: 4px;
+  color: var(--dark-blue-color);
+  padding: .2rem;
+}
