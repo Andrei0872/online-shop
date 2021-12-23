@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { BehaviorSubject, filter, Observable, tap, map, Subject, catchError } from 'rxjs';
+import { BehaviorSubject, filter, Observable, tap, map, Subject, catchError, EMPTY } from 'rxjs';
 import { Environment, ENV_CONFIG } from '../tokens';
 import { Product } from './product.model';
 
@@ -18,7 +18,6 @@ export class ProductService {
       filter(Boolean)
     );
 
-
   constructor (
     @Inject(ENV_CONFIG) env: Environment,
     private httpClient: HttpClient,
@@ -29,7 +28,7 @@ export class ProductService {
   private getAll () {
     const pendingProducts$: Observable<Product[]> = this.httpClient.get(this.URL) as Observable<Product[]>;
     pendingProducts$.pipe(
-      catchError(err => (console.warn(err), this.errors.next(err), [])),
+      catchError(err => (console.warn(err), this.errors.next(err), EMPTY)),
     ).subscribe(p => this.products.next(p));
   }
 }

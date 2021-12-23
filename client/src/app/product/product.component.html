@@ -8,8 +8,8 @@
     <img class="product__image" [src]="'../../assets/products/product' + p.id + '.jpg'" [alt]="'Image for product ' + p.id">
 
     <div class="product__info">
-      <div class="product__price">Price: <span>{{ p.price }}</span></div>
-      <div class="product__category">Category: <span>{{ p.category }}</span></div>
+      <div class="product__price">Price: <span class="is-highlighted">{{ p.price }}</span></div>
+      <div class="product__category">Category: <span class="is-highlighted">{{ p.category }}</span></div>
     </div>
   </div>
 </article>

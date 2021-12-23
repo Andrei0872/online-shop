@@ -5,7 +5,7 @@
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   align-items: flex-start;
   gap: 2rem;
-  padding: 1rem;
+  padding: 2rem 1rem;
 }
 
 .product {
@@ -20,29 +20,22 @@
     transform: translateY(-2px);
     cursor: pointer;
   }
-}
 
-.product__image {
-  width: 100%;
-  height: 300px;
-  object-fit: cover;
-  border: 5px solid var(--light-gray-color);
-}
-
-.product__info {
-  display: flex;
-  justify-content: space-between;
-  font-weight: bold;
-  padding: .7rem;
-
-  & span {
-    background: var(--yellow-color);
-    border-radius: 4px;
-    color: var(--dark-blue-color);
-    padding: .2rem;
+  &__image {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border: 5px solid var(--light-gray-color);
   }
-}
 
-.product__header {
-  text-align: center;
+  &__info {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    padding: .7rem;
+  }
+
+  &__header {
+    text-align: center;
+  } 
 }
