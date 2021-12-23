@@ -1,0 +1,23 @@
+
+<ng-container *ngIf="(orders$ | async) as orders">
+  <ng-container *ngTemplateOutlet="orders.length ? ordersTpl : empty; context: { $implicit: orders }"></ng-container>
+</ng-container>
+
+<ng-template #ordersTpl let-orders>
+  <article
+    class="order"
+    *ngFor="let o of orders"
+  >
+    <h2 class="order__title">Order {{ o.id }}</h2>
+
+    <ul class="order__info">
+      <li><span>Nr. products: </span> <span class="is-highlighted">{{ o.nrProducts }}</span></li>
+      <li><span>Total: </span> <span class="is-highlighted">{{ o.totalPrice }}</span></li>
+      <li><span>Issued at: </span> <span class="is-highlighted">{{ o.issuedAt }}</span></li>
+    </ul>
+  </article>
+</ng-template>
+
+<ng-template #empty>
+  <div>There are no orders.</div>
+</ng-template>

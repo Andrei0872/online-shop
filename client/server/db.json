@@ -83,5 +83,28 @@
       "category": "category1",
       "addedAt": "24-12-2021"
     }
+  ],
+  "orders": [
+    {
+      "id": 1,
+      "userId": 1,
+      "totalPrice": 0,
+      "nrProducts": 2,
+      "issuedAt": "26-12-2021"
+    },
+    {
+      "id": 2,
+      "userId": 1,
+      "totalPrice": 0,
+      "nrProducts": 4,
+      "issuedAt": "27-12-2021"
+    },
+    {
+      "id": 3,
+      "userId": 1,
+      "totalPrice": 0,
+      "nrProducts": 3,
+      "issuedAt": "28-12-2021"
+    }
   ]
 }
