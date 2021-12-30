@@ -16,9 +16,13 @@ using server.Helpers.Constants;
 using Microsoft.EntityFrameworkCore;
 
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 using server.DAL.UnitOfWork;
 
+using server.Services.UserService;
 namespace server
 {
     public class Startup
@@ -41,6 +45,26 @@ namespace server
                 options.AddPolicy(UserRoleType.User, policy => policy.RequireRole(UserRoleType.User));
             });
 
+            services
+                .AddAuthentication(auth => {
+                    auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                    auth.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(opts => {
+                    opts.SaveToken = true;
+                    opts.TokenValidationParameters = new TokenValidationParameters {
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        ValidateLifetime = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SECRET_KEY")),
+                        ValidateIssuerSigningKey = true
+                    };
+                    opts.Events = new JwtBearerEvents() {
+                        OnTokenValidated = Helpers.SessionTokenValidator.ValidateSessionToken
+                    };
+                });
+
             services.Configure<IdentityOptions>(opts => {
                 // Using lenient constraints for demo purposes.
                 opts.Password.RequiredLength = 3;
@@ -51,6 +75,7 @@ namespace server
             services.AddControllers();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<SeedDb>();
         }
 
