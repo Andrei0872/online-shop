@@ -57,7 +57,7 @@ namespace server
                         ValidateIssuer = false,
                         ValidateAudience = false,
                         ValidateLifetime = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SECRET_KEY")),
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SECRET_KEY that should be longer than 32 bits")),
                         ValidateIssuerSigningKey = true
                     };
                     opts.Events = new JwtBearerEvents() {
