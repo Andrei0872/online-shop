@@ -14,5 +14,6 @@ namespace server.Services.UserService
         Task<User> GetUserByEmail(string email);
         Task<bool> UserExists(RegisterUserDto userDTO);
         Task<string> RegisterUserAsync(RegisterUserDto userDTO);
+        Task<string> Login(LoginUserDto userDto);
     }
 }

@@ -56,6 +56,22 @@ namespace server.Services.UserService
         return (await GetUserByEmail(userDTO.Email)) != null;
     }
 
+    public async Task<string> Login (LoginUserDto userDto) {
+        var existingUser = await GetUserByEmail(userDto.Email);
+
+        var isNonExistingUser = existingUser == null;
+        if (isNonExistingUser) {
+            return null;
+        }
+
+        var isPasswordValid = await this._userManager.CheckPasswordAsync(existingUser, userDto.Password);
+        if (!isPasswordValid) {
+            return null;
+        }
+
+        return await this.GenerateJWT(existingUser);
+    }
+
     private async Task<string> GenerateJWT (User user) {
         user = await this._unitOfWork.User.GetUserByIdWithRoles(user.Id);
         List<string> roles = user.UserRoles.Select(ur => ur.Role.Name).ToList();

@@ -28,6 +28,7 @@ namespace server.Controllers
         
             var userExists = await this._userService.UserExists(registerUserDTO);
             if (userExists) {
+                // TODO: from a security point of view, it might not be a good idea to reveal this information.
                 response.Error = "The user already exists.";
                 return BadRequest(response);
             }
@@ -43,5 +44,21 @@ namespace server.Controllers
             response.Error = "A problem occurred while trying to register the";
             return BadRequest(response);
         }
+    
+    [HttpPost("login")]
+    [AllowAnonymous]
+    public async Task<IActionResult> Login ([FromBody] LoginUserDto userDto) {
+        var response = new UserResponse();
+        
+        string token = await this._userService.Login(userDto);
+        if (token == null) {
+            response.Error = "Something went wrong while trying to log in.";
+            return Unauthorized(response);
+        }
+
+        response.Data.Message = "Successfully logged in.";
+        response.Data.Token = token;
+        return Ok(response);
+    }
     }
 }

@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace server.Helpers.Constants
 {
-    public class UserRoleType
+    public static class UserRoleType
     {
-        public static readonly string Admin = "Admin";
-        public static readonly string User = "User";
+        public const string Admin = "Admin";
+        public const string User = "User";
     }
 }
