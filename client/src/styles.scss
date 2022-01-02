@@ -26,3 +26,22 @@ body {
   color: var(--dark-blue-color);
   padding: .2rem;
 }
+
+.form-control {
+  display: flex;
+  width: 20rem;
+  justify-content: space-between;
+
+  & > label {
+    font-weight: bold;
+    color: var(--dark-blue-2-color);
+  }
+
+  & > input {
+    border: 2px solid var(--light-gray-color);
+    border-radius: 4px;
+    padding: .2rem;
+  }
+}
+
+}
