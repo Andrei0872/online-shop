@@ -22,12 +22,13 @@ export class ProductService {
     @Inject(ENV_CONFIG) env: Environment,
     private httpClient: HttpClient,
   ) {
-    this.URL = `${env.API_URL}/products`;
+    this.URL = `${env.API_URL}/product`;
   }
 
   private getAll () {
     const pendingProducts$: Observable<Product[]> = this.httpClient.get(this.URL) as Observable<Product[]>;
     pendingProducts$.pipe(
+      map(resp => (resp as any).data),
       catchError(err => (console.warn(err), this.errors.next(err), EMPTY)),
     ).subscribe(p => this.products.next(p));
   }
