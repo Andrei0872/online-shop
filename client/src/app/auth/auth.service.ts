@@ -27,11 +27,15 @@ export class AuthService {
     return !!this.currentUser && !!this.currentUser?.token;
   }
 
+  get userToken () {
+    return this.currentUser?.token;
+  }
+
   constructor(
     @Inject(ENV_CONFIG) env: Environment,
     private httpClient: HttpClient,
   ) {
-    this.URL = `${env.API_URL}/api/user`;
+    this.URL = `${env.API_URL}/user`;
   }
 
   private saveAuthState ({ token, role }: any) {
