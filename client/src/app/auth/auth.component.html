@@ -1,0 +1,30 @@
+<section class="auth">
+  <div class="auth__header">
+    <h1>{{ headerContent }}</h1>
+    <span (click)="changeMode()">{{ changeModeMessage }}</span>
+  </div>
+
+  <div class="auth__body">
+    <form 
+      #f="ngForm"
+      (ngSubmit)="onSubmit(f.value)"
+      [formGroup]="form"
+      class="auth__form"
+    >
+      <div
+      *ngFor="let authField of authFields"
+      class="form-control"
+      >
+        <label [for]="authField.propName">{{ authField.humanReadableName }}</label>
+        <input
+          type="text"
+          [id]="authField.propName"
+          [name]="authField.propName"
+          [formControlName]="authField.propName"
+        >
+      </div>
+
+      <button class="auth__submit button" type="submit">Submit</button>
+    </form>
+  </div>
+</section>
