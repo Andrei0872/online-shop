@@ -43,7 +43,8 @@
 .nav-items {
   background-color: var(--light-gray-color);
   list-style: none;
-  
+  z-index: 2;
+
   &:not(.is-nested) {
     display: flex;
     justify-content: flex-end;
