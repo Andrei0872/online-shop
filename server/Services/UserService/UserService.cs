@@ -11,6 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace server.Services.UserService
@@ -32,7 +33,7 @@ namespace server.Services.UserService
         return await this._userManager.FindByEmailAsync(email);
     }
 
-    public async Task<string> RegisterUserAsync(RegisterUserDto userDTO)
+    public async Task<(string, string)> RegisterUserAsync(RegisterUserDto userDTO)
     {
         var registeredUser = new User();
         registeredUser.FirstName = userDTO.FirstName;
@@ -43,12 +44,13 @@ namespace server.Services.UserService
         var rawPassword = userDTO.Password;
         var res = await this._userManager.CreateAsync(registeredUser, rawPassword);
         if (!res.Succeeded) {
-            return null;
+            return (null, null);
         }
 
         await this._userManager.AddToRoleAsync(registeredUser, UserRoleType.User);
 
-        return await this.GenerateJWT(registeredUser);
+        var roles = await this._userManager.GetRolesAsync(registeredUser);
+        return (await this.GenerateJWT(registeredUser), roles.First());
     }
 
     public async Task<bool> UserExists(RegisterUserDto userDTO)
@@ -56,20 +58,28 @@ namespace server.Services.UserService
         return (await GetUserByEmail(userDTO.Email)) != null;
     }
 
-    public async Task<string> Login (LoginUserDto userDto) {
+    public async Task<(string, string)> Login (LoginUserDto userDto) {
         var existingUser = await GetUserByEmail(userDto.Email);
 
         var isNonExistingUser = existingUser == null;
         if (isNonExistingUser) {
-            return null;
+            Console.WriteLine("[USER#Login]: User does not exist.");
+            return (null, null);
         }
 
         var isPasswordValid = await this._userManager.CheckPasswordAsync(existingUser, userDto.Password);
         if (!isPasswordValid) {
-            return null;
+            Console.WriteLine("[USER#Login]: Invalid password.");
+
+            return (null, null);
         }
 
-        return await this.GenerateJWT(existingUser);
+        var roles = await this._userManager.GetRolesAsync(existingUser);
+        return (await this.GenerateJWT(existingUser), roles.First());
+    }
+
+    public async Task<List<User>> GetAll () {
+        return await this._userManager.Users.ToListAsync();
     }
 
     private async Task<string> GenerateJWT (User user) {

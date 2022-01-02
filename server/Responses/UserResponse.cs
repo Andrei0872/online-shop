@@ -4,12 +4,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Text.Json;
 
+using server.Models;
+
 namespace server.Responses
 {
     public class Data
     {
         public string Message { get; set; }
         public string Token { get; set; }
+        public string Role { get; set; }
     }
 
     public class UserResponse

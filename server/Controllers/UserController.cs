@@ -7,6 +7,7 @@ using server.Services.UserService;
 using server.DTOs;
 using server.Responses;
 using Microsoft.AspNetCore.Authorization;
+using server.Helpers.Constants;
 
 namespace server.Controllers
 {
@@ -33,15 +34,16 @@ namespace server.Controllers
                 return BadRequest(response);
             }
 
-            var token = await this._userService.RegisterUserAsync(registerUserDTO);
-            if (token != null) {
+            var (token, role) = await this._userService.RegisterUserAsync(registerUserDTO);
+            if (token != null && role != null) {
                 response.Data.Message = "The user has been successfully registered.";
                 response.Data.Token = token;
+                response.Data.Role = role;
 
                 return Ok(response);
             }
 
-            response.Error = "A problem occurred while trying to register the";
+            response.Error = "A problem occurred while trying to register";
             return BadRequest(response);
         }
     
@@ -50,14 +52,15 @@ namespace server.Controllers
     public async Task<IActionResult> Login ([FromBody] LoginUserDto userDto) {
         var response = new UserResponse();
         
-        string token = await this._userService.Login(userDto);
-        if (token == null) {
+        var tokenRolePair = await this._userService.Login(userDto);
+        if (tokenRolePair.Item1 == null && tokenRolePair.Item2 == null) {
             response.Error = "Something went wrong while trying to log in.";
             return Unauthorized(response);
         }
 
         response.Data.Message = "Successfully logged in.";
-        response.Data.Token = token;
+        response.Data.Token = tokenRolePair.Item1;
+        response.Data.Role = tokenRolePair.Item2;
         return Ok(response);
     }
     }

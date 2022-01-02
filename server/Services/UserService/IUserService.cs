@@ -13,7 +13,8 @@ namespace server.Services.UserService
     {
         Task<User> GetUserByEmail(string email);
         Task<bool> UserExists(RegisterUserDto userDTO);
-        Task<string> RegisterUserAsync(RegisterUserDto userDTO);
-        Task<string> Login(LoginUserDto userDto);
+        Task<(string, string)> RegisterUserAsync(RegisterUserDto userDTO);
+        Task<(string, string)> Login(LoginUserDto userDto);
+        Task<List<User>> GetAll();
     }
 }
