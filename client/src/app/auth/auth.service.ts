@@ -4,14 +4,22 @@ import { BehaviorSubject, tap } from 'rxjs';
 import { Environment, ENV_CONFIG } from '../tokens';
 import { LoginBody, RegisterBody } from './auth.model';
 
-const TOKEN_KEY = 'token';
+const USER_KEY = 'user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private URL;
-  private authState = new BehaviorSubject(localStorage.getItem(TOKEN_KEY));
+  private authState = new BehaviorSubject(JSON.parse(localStorage.getItem(USER_KEY) ?? 'null'));
+
+  get currentUser () {
+    return this.authState.value;
+  }
+
+  get currentUserExists () {
+    return !!this.currentUser && !!this.currentUser?.token;
+  }
 
   constructor(
     @Inject(ENV_CONFIG) env: Environment,
@@ -20,9 +28,11 @@ export class AuthService {
     this.URL = `${env.API_URL}/api/user`;
   }
 
-  private saveToken (token: string) {
-    this.authState.next(token);
-    localStorage.setItem(TOKEN_KEY, token);
+  private saveAuthState ({ token, role }: any) {
+    const newState = { token, role };
+
+    this.authState.next(newState);
+    localStorage.setItem(USER_KEY, JSON.stringify(newState));
   }
 
   attemptLogin (body: LoginBody) {
@@ -30,7 +40,7 @@ export class AuthService {
       `${this.URL}/login`,
       body,
     ).pipe(
-      tap(response => this.saveToken((response as any).data.token))
+      tap(response => this.saveAuthState((response as any).data))
     );
   }
 
@@ -39,7 +49,7 @@ export class AuthService {
       `${this.URL}/register`,
       body,
     ).pipe(
-      tap(response => this.saveToken((response as any).data.token))
+      tap(response => this.saveAuthState((response as any).data))
     );
   }
 }
