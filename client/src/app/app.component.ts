@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { map } from 'rxjs';
+import { AuthService } from './auth/auth.service';
 import { OrderService } from './order/order.service';
 
 @Component({
@@ -14,5 +16,18 @@ export class AppComponent {
     );
   }
 
-  constructor (private orderService: OrderService) {}
+  get isAuthenticated$ () {
+    return this.authService.isAuthenticated$;
+  }
+  
+  constructor (
+    private orderService: OrderService,
+    private authService: AuthService,
+    private router: Router,
+  ) {}
+
+  logOut () {
+    this.authService.logOut();
+    this.router.navigateByUrl('/auth');
+  }
 }

@@ -4,19 +4,17 @@
   <nav class="nav">
     <ul class="nav-items">
       <li class="nav-items__item">
-        <!-- TODO: if logged in -->
-        <span>Hello, X</span>
-        <ul class="nav-items is-nested">
-          <li class="nav-items__item">Log out</li>
-          <li class="nav-items__item">Hello, X</li>
-        </ul>
+        <ng-container *ngIf="isAuthenticated$ | async">
+          <span>Hello, X</span>
+          <ul class="nav-items is-nested">
+            <li (click)="logOut()" class="nav-items__item">Log out</li>
+          </ul>
+        </ng-container>
 
-        <!-- TODO: else -->
-        <!-- <span>Log in</span> -->
+        <span *ngIf="(isAuthenticated$ | async) === false" routerLink="/auth">Log in</span>
       </li>
       
-      <!-- TODO: if logged in -->
-      <li routerLink="orders/current" class="nav-items__item">Cart: {{ nrProductsInCart$ | async }}</li>
+      <li *ngIf="isAuthenticated$ | async" routerLink="orders/current" class="nav-items__item">Cart: {{ nrProductsInCart$ | async }}</li>
     </ul>
   </nav>
 </header>
