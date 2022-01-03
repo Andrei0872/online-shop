@@ -1,3 +1,4 @@
+using System.Reflection.Emit;
 using System.Security.Claims;
 using System;
 using System.Collections.Generic;
@@ -28,12 +29,12 @@ namespace server.Services.OrderService
         {
             var o = new Order();
             o.UserID = Int32.Parse(this._userService.GetCrtUserId());
-            o.OrderProducts = new List<OrderProduct>();
+            o.OrderProducts = new List<server.Models.OrderProduct>();
 
             this._unitOfWork.Order.Insert(o);
             
             foreach (var p in orderProducts) {
-                var op = new OrderProduct();
+                var op = new server.Models.OrderProduct();
                 op.OrderID = o.ID;
                 op.ProductID = p.Id;
                 op.Quantity = p.Quantity;
@@ -77,6 +78,34 @@ namespace server.Services.OrderService
             .GroupBy(r => new { OrderId = r.OrderProductsJoined.OrderId, IssuedAt = r.OrderProductsJoined.IssuedAt, UserId = r.OrderProductsJoined.UserId })
             .Select(r => new OrderSummary(r.Key.OrderId, r.Key.UserId, r.Key.IssuedAt, r.Count(), r.Sum(o => o.Price * o.OrderProductsJoined.Quantity)))
             .ToListAsync();
+        }
+        public async Task<OrderInDetail> GetOrder(int orderId)
+        {
+            var orderInDetail = new OrderInDetail();
+            var crtUserId = Int32.Parse(this._userService.GetCrtUserId());
+
+            var o = await this._unitOfWork.Order.Get(orderId);
+            if (o.UserID != crtUserId) {
+                // The user hasn't created this order, so there's something suspicious.
+                Console.WriteLine("[OrderService#GetOrder]: problem with user ids!");
+                return null;
+            }
+
+            var products = await this._unitOfWork.OrderProduct
+                .GetAll()
+                .Where(op => op.OrderID == o.ID)
+                .Join(
+                    this._unitOfWork.Product.GetAll(),
+                    op => op.ProductID,
+                    p => p.ID,
+                    (op, p) => new server.Helpers.OrderProduct(p, op.Quantity)
+                )
+                .ToListAsync();
+
+            orderInDetail.Products = products;
+            orderInDetail.Id = o.ID;
+            orderInDetail.TotalPrice = orderInDetail.Products.Sum(p => p.Quantity * p.Price);
+            return orderInDetail;
         }
     }
 }

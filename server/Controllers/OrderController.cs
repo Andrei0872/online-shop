@@ -49,5 +49,20 @@ namespace server.Controllers
 
             return Problem(title: "An error occurred while creating the order."); 
         }
+
+        [Authorize(Roles = UserRoleType.Admin + "," + UserRoleType.User)]
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetOrder (int id) {
+            var orderResp = new OrderResponse();
+
+            var res = await this._orderService.GetOrder(id);
+            if (res != null) {
+                orderResp.Data = res;
+                return Ok(orderResp);
+            }
+
+            orderResp.Error = "A problem occurred while trying to fetch the order";
+            return BadRequest(orderResp);
+        }
     }
 }

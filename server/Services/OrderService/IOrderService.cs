@@ -13,5 +13,6 @@ namespace server.Services.OrderService
     {
         Task<List<OrderSummary>> GetAllOrdersSummary();
         Task<bool> CreateOrder(server.DTOs.OrderProduct[] orderProducts);
+        Task<OrderInDetail> GetOrder(int orderId);
     }
 }
