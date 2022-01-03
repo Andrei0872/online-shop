@@ -19,6 +19,10 @@ export class AppComponent {
   get isAuthenticated$ () {
     return this.authService.isAuthenticated$;
   }
+
+  get isCurrentUserAdmin () {
+    return this.authService.isCurrentUserAdmin;
+  }
   
   constructor (
     private orderService: OrderService,

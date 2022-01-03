@@ -6,6 +6,11 @@ import { LoginBody, RegisterBody } from './auth.model';
 
 const USER_KEY = 'user';
 
+const enum USER_ROLES {
+  ADMIN = "Admin",
+  USER = "User"
+};
+
 @Injectable({
   providedIn: 'root'
 })
@@ -29,6 +34,10 @@ export class AuthService {
 
   get userToken () {
     return this.currentUser?.token;
+  }
+
+  get isCurrentUserAdmin () {
+    return this.currentUser?.role === USER_ROLES.ADMIN;
   }
 
   constructor(
