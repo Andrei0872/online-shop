@@ -92,4 +92,8 @@ export class OrderService {
   markOrdersAsDirty () {
     this.orders.next(null);
   }
+
+  emptyCurrentCart () {
+    this.cart.next([]);
+  }
 }

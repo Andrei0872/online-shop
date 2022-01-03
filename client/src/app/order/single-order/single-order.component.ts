@@ -55,6 +55,7 @@ export class SingleOrderComponent implements OnInit {
     this.orderService.submitOrder(products)
       .subscribe(() => {
         this.orderService.markOrdersAsDirty();
+        this.orderService.emptyCurrentCart();
         this.router.navigateByUrl("/orders");
       });
   }
