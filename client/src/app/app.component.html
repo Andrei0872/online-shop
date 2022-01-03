@@ -5,7 +5,7 @@
     <ul class="nav-items">
       <li class="nav-items__item">
         <ng-container *ngIf="isAuthenticated$ | async">
-          <span>Hello, X</span>
+          <span>Hello, {{ crtUserUsername$ | async }}</span>
           <ul class="nav-items is-nested">
             <li (click)="logOut()" class="nav-items__item">Log out</li>
           </ul>

@@ -10,6 +10,10 @@ import { OrderService } from './order/order.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  get crtUserUsername$ () {
+    return this.authService.crtUserUsername$;
+  }
+  
   get nrProductsInCart$ () {
     return this.orderService.cart$.pipe(
       map(products => products.reduce((acc, p) => p.quantity + acc, 0))
@@ -28,7 +32,7 @@ export class AppComponent {
     private orderService: OrderService,
     private authService: AuthService,
     private router: Router,
-  ) {}
+  ) { }
 
   logOut () {
     this.authService.logOut();

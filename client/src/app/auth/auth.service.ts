@@ -24,6 +24,18 @@ export class AuthService {
     map(state => !!state)
   );
 
+  crtUserUsername$ = this.authState.pipe(
+    map(state => state?.token),
+    map(token => {
+      if (!token) {
+        return '';
+      }
+
+      const payload = token.split('.')[1];
+      return JSON.parse(atob(payload))['unique_name'];
+    })
+  )
+
   get currentUser () {
     return this.authState.value;
   }
@@ -45,7 +57,7 @@ export class AuthService {
 
     return JSON.parse(atob(payload))['nameid'];
   }
-  
+
   constructor(
     @Inject(ENV_CONFIG) env: Environment,
     private httpClient: HttpClient,
