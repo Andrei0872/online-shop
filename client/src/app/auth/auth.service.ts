@@ -40,6 +40,12 @@ export class AuthService {
     return this.currentUser?.role === USER_ROLES.ADMIN;
   }
 
+  get crtUserId () {
+    const payload = this.userToken.split('.')[1];
+
+    return JSON.parse(atob(payload))['nameid'];
+  }
+  
   constructor(
     @Inject(ENV_CONFIG) env: Environment,
     private httpClient: HttpClient,

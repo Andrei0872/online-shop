@@ -1,5 +1,7 @@
 <ul
   class="user"
+  [routerLink]="['/orders/user/', u.id]"
+  [class.is-current-user]="+u.id === +crtUserId"
   *ngFor="let u of users$ | async"
 >
   <li>{{ u.firstName }}</li>

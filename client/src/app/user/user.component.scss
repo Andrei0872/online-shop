@@ -22,4 +22,8 @@
     cursor: pointer;
     outline: 3px solid var(--dark-blue-2-color);
   }
+
+  &.is-current-user {
+    background-color: var(--yellow-color);
+  }
 }
