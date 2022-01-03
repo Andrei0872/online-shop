@@ -29,7 +29,7 @@ export class OrderService {
     @Inject(ENV_CONFIG) env: Environment,
     private httpClient: HttpClient
   ) {
-    this.URL = `${env.API_URL}/orders`;
+    this.URL = `${env.API_URL}/order`;
 
     this.cartEvents.pipe(
       withLatestFrom(this.cart),
@@ -58,6 +58,7 @@ export class OrderService {
   private getAll () {
     const pendingOrders$: Observable<Order[]> = this.httpClient.get(this.URL) as Observable<Order[]>;
     pendingOrders$.pipe(
+      map(r => (r as any).data),
       catchError(err => (console.warn(err), this.errors.next(err), EMPTY)),
     ).subscribe(p => this.orders.next(p));
   }
@@ -79,6 +80,16 @@ export class OrderService {
   }
 
   submitOrder (products: OrderProduct[]) {
-    console.log(products);
+    const orderProducts = products.map(p => ({ id: p.id, quantity: p.quantity }));
+    
+    return this.httpClient.post(this.URL, { products: orderProducts })
+      .pipe(
+        map(resp => (resp as any).data),
+        catchError(err => (console.warn(err), this.errors.next(err), EMPTY)),
+      );
+  }
+
+  markOrdersAsDirty () {
+    this.orders.next(null);
   }
 }

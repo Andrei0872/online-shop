@@ -7,6 +7,8 @@ using server.Repositories.ProductRepository;
 using server.Data;
 using server.Repositories.SessionRepository;
 using server.Repositories.UserRepository;
+using server.Repositories.OrderRepository;
+using server.Repositories.OrderProductRepository;
 
 namespace server.DAL.UnitOfWork
 {
@@ -17,6 +19,8 @@ namespace server.DAL.UnitOfWork
     private IProductRepository _productRepository;
     private ISessionRepository _sessionRepository;
     private IUserRepository _userRepository;
+    private IOrderRepository _orderRepository;
+    private IOrderProductRepository _orderProductRepository;
     public UnitOfWork(ServerContext serverContext)
     {
         _serverContext = serverContext;
@@ -49,6 +53,25 @@ namespace server.DAL.UnitOfWork
             }
 
             return this._userRepository;
+        }
+    }
+
+    public IOrderRepository Order {
+        get {
+            if (this._orderRepository == null) {
+                this._orderRepository = new OrderRepository(this._serverContext);
+            }
+
+            return this._orderRepository;
+        }
+    }
+    public IOrderProductRepository OrderProduct {
+        get {
+            if (this._orderProductRepository == null) {
+                this._orderProductRepository = new OrderProductRepository(this._serverContext);
+            }
+
+            return this._orderProductRepository;
         }
     }
 

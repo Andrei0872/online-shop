@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { filter, map, Observable, tap } from 'rxjs';
 import { CurrentOrder, OrderProduct } from '../order.model';
 import { OrderService } from '../order.service';
@@ -26,6 +26,7 @@ export class SingleOrderComponent implements OnInit {
   constructor (
     private orderService: OrderService,
     private route: ActivatedRoute,
+    private router: Router,
   ) {
     this.initializeComponent();
   }
@@ -51,6 +52,10 @@ export class SingleOrderComponent implements OnInit {
   }
 
   submitOrder (products: OrderProduct[]) {
-    this.orderService.submitOrder(products);
+    this.orderService.submitOrder(products)
+      .subscribe(() => {
+        this.orderService.markOrdersAsDirty();
+        this.router.navigateByUrl("/orders");
+      });
   }
 }

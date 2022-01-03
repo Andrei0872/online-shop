@@ -51,6 +51,10 @@ namespace server.Data
                 ur.HasOne(ur => ur.User).WithMany(u => u.UserRoles).HasForeignKey(ur => ur.UserId);
             });
 
+            modelBuilder.Entity<Order>()
+                .Property(o => o.ID)
+                .ValueGeneratedOnAdd();
+
             modelBuilder.Seed();
         }
     }

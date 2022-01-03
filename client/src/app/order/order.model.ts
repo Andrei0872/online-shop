@@ -33,3 +33,5 @@ export interface CartPayloadDelete {
 }
 
 export type CartPayload = CartPayloadAdd | CartPayloadDelete;
+
+export type OrderProductDTO = Pick<OrderProduct, 'id' | 'quantity'>;

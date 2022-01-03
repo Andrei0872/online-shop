@@ -24,6 +24,7 @@ using System.Text;
 using server.DAL.UnitOfWork;
 
 using server.Services.UserService;
+using server.Services.OrderService;
 namespace server
 {
     public class Startup
@@ -81,6 +82,7 @@ namespace server
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<SeedDb>();
         }
 
