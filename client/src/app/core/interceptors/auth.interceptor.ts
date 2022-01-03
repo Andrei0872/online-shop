@@ -6,13 +6,14 @@ import {
   HttpInterceptor,
   HttpHeaders
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, Observable, tap } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor (private authService: AuthService) {}
+  constructor (private authService: AuthService, private router: Router) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const newReq = request.clone({
@@ -21,6 +22,13 @@ export class AuthInterceptor implements HttpInterceptor {
       })
     });
 
-    return next.handle(newReq);
+    return next.handle(newReq).pipe(
+      tap({ error: err => {
+        if ([401, 403].includes(err.status)) {
+          this.authService.logOut();
+          this.router.navigateByUrl('/auth')
+        }
+      }})
+    );
   }
 }
