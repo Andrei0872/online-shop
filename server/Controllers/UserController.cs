@@ -63,5 +63,16 @@ namespace server.Controllers
         response.Data.Role = tokenRolePair.Item2;
         return Ok(response);
     }
+
+    [HttpGet]
+    [Authorize(Roles = UserRoleType.Admin)]
+    public async Task<IActionResult> GetAllUsers () {
+        var resp = new GenericResponse();
+
+        var users = await this._userService.GetAll();
+        resp.Data = users;
+
+        return Ok(resp);
+    }
     }
 }

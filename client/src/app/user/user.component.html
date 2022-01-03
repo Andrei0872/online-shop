@@ -1,0 +1,8 @@
+<ul
+  class="user"
+  *ngFor="let u of users$ | async"
+>
+  <li>{{ u.firstName }}</li>
+  <li>{{ u.lastName }}</li>
+  <li>{{ u.email }}</li>
+</ul>

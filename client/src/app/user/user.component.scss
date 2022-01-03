@@ -1,0 +1,25 @@
+:host {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  overflow-y: auto;
+  gap: 3rem;
+  align-items: center;
+  padding-block: 3rem;
+}
+
+.user {
+  display: flex;
+  justify-content: space-around;
+  outline: 3px solid var(--light-gray-color);
+  width: min(90%, 50rem);
+  padding: 1rem;
+  list-style: none;
+  font-weight: bold;
+  color: var(--dark-blue-color);
+
+  &:hover {
+    cursor: pointer;
+    outline: 3px solid var(--dark-blue-2-color);
+  }
+}
