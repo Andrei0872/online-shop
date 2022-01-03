@@ -7,7 +7,7 @@
   <article
     class="order"
     *ngFor="let o of orders"
-    [routerLink]="[o.orderId]"
+    [routerLink]="['/orders/', o.orderId]"
   >
     <h2 class="order__title">Order {{ o.orderId }}</h2>
 

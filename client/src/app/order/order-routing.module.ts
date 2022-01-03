@@ -9,6 +9,10 @@ const routes: Routes = [
     component: OrderComponent
   },
   {
+    path: 'user/:userId',
+    component: OrderComponent,
+  },
+  {
     path: ':idOrCurrent',
     component: SingleOrderComponent,
   }

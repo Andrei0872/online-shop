@@ -30,7 +30,7 @@ namespace server.Controllers
         public async Task<IActionResult> GetAll () {
             var orderResp = new OrderResponse();
 
-            var orders = await this._orderService.GetAllOrdersSummary();
+            var orders = await this._orderService.GetAllOrdersSummary(-1);
             orderResp.Data = orders;
 
             return Ok(orderResp);
@@ -63,6 +63,17 @@ namespace server.Controllers
 
             orderResp.Error = "A problem occurred while trying to fetch the order";
             return BadRequest(orderResp);
+        }
+
+        [Authorize(Roles = UserRoleType.Admin)]
+        [HttpGet("user/{id}")]
+        public async Task<IActionResult> GetOrdersOfUser(int id)
+        {
+            var resp = new GenericResponse();
+
+            resp.Data = await this._orderService.GetAllOrdersSummary(id);
+
+            return Ok(resp);
         }
     }
 }

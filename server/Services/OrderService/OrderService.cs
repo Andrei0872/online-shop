@@ -51,8 +51,8 @@ namespace server.Services.OrderService
             }
         }
 
-    public async Task<List<OrderSummary>> GetAllOrdersSummary () {
-        var crtUserId = Int32.Parse(this._userService.GetCrtUserId());
+    public async Task<List<OrderSummary>> GetAllOrdersSummary (int specificUserId = -1) {
+        var crtUserId = specificUserId == -1 ? Int32.Parse(this._userService.GetCrtUserId()) : specificUserId;
         
         return await this._unitOfWork.Order
             .GetAll()
@@ -106,6 +106,10 @@ namespace server.Services.OrderService
             orderInDetail.Id = o.ID;
             orderInDetail.TotalPrice = orderInDetail.Products.Sum(p => p.Quantity * p.Price);
             return orderInDetail;
+        }
+
+        public async Task<List<OrderSummary>> GetOrdersOfUser (int userId) {
+            return await this.GetAllOrdersSummary(userId);
         }
     }
 }

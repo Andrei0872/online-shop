@@ -96,4 +96,12 @@ export class OrderService {
   emptyCurrentCart () {
     this.cart.next([]);
   }
+
+  fetchOrdersOfUser (userId: number) {
+    const URL = `${this.URL}/user/${userId}`;
+    return this.httpClient.get(URL).pipe(
+      map(resp => (resp as any).data),
+      catchError(err => (console.warn(err), this.errors.next(err), EMPTY)),
+    );
+  }
 }
