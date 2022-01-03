@@ -22,10 +22,17 @@ namespace server.Services.UserService
 
     private UserManager<User> _userManager;
     private IUnitOfWork _unitOfWork;
-    public UserService(UserManager<User> userManager, IUnitOfWork unitOfWork)
+    private ClaimsPrincipal _claimsPrincipal;
+
+    public UserService(
+        UserManager<User> userManager,
+        IUnitOfWork unitOfWork,
+        ClaimsPrincipal claimsPrincipal
+    )
     {
         _userManager = userManager;
         _unitOfWork = unitOfWork;
+        _claimsPrincipal = claimsPrincipal;
     }
 
     public async Task<User> GetUserByEmail(string email)
@@ -80,6 +87,10 @@ namespace server.Services.UserService
 
     public async Task<List<User>> GetAll () {
         return await this._userManager.Users.ToListAsync();
+    }
+
+    public string GetCrtUserId () {
+        return this._claimsPrincipal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
     }
 
     private async Task<string> GenerateJWT (User user) {

@@ -16,5 +16,6 @@ namespace server.Services.UserService
         Task<(string, string)> RegisterUserAsync(RegisterUserDto userDTO);
         Task<(string, string)> Login(LoginUserDto userDto);
         Task<List<User>> GetAll();
+        string GetCrtUserId();
     }
 }
