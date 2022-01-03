@@ -93,6 +93,13 @@ namespace server.Services.UserService
         return this._claimsPrincipal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
     }
 
+    public async Task<bool> IsCrtUserAdmin () {
+        var crtUser = await this._userManager.FindByIdAsync(this.GetCrtUserId());
+        var roles = await this._userManager.GetRolesAsync(crtUser);
+
+        return roles.Contains(UserRoleType.Admin);
+    }
+
     private async Task<string> GenerateJWT (User user) {
         user = await this._unitOfWork.User.GetUserByIdWithRoles(user.Id);
         List<string> roles = user.UserRoles.Select(ur => ur.Role.Name).ToList();

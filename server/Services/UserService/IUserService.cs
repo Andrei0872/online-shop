@@ -17,5 +17,6 @@ namespace server.Services.UserService
         Task<(string, string)> Login(LoginUserDto userDto);
         Task<List<User>> GetAll();
         string GetCrtUserId();
+        Task<bool> IsCrtUserAdmin();
     }
 }

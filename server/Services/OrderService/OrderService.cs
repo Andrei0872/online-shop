@@ -85,7 +85,8 @@ namespace server.Services.OrderService
             var crtUserId = Int32.Parse(this._userService.GetCrtUserId());
 
             var o = await this._unitOfWork.Order.Get(orderId);
-            if (o.UserID != crtUserId) {
+            var isCrtUserAdmin = await this._userService.IsCrtUserAdmin();
+            if (o.UserID != crtUserId && !isCrtUserAdmin) {
                 // The user hasn't created this order, so there's something suspicious.
                 Console.WriteLine("[OrderService#GetOrder]: problem with user ids!");
                 return null;
