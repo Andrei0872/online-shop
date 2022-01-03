@@ -94,11 +94,6 @@ namespace server
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseRouting();
-
-            app.UseAuthentication();
-            app.UseAuthorization();
-
             app.UseCors(
                 r => r
                     .AllowAnyMethod()
@@ -106,6 +101,12 @@ namespace server
                     .SetIsOriginAllowed(origin => true)
                     .AllowCredentials()
             );
+
+            app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
 
             app.UseEndpoints(endpoints =>
             {
