@@ -7,9 +7,9 @@
   <article
     class="order"
     *ngFor="let o of orders"
-    [routerLink]="[o.id]"
+    [routerLink]="[o.orderId]"
   >
-    <h2 class="order__title">Order {{ o.id }}</h2>
+    <h2 class="order__title">Order {{ o.orderId }}</h2>
 
     <ul class="order__info">
       <li><span>Nr. products: </span> <span class="is-highlighted">{{ o.nrProducts }}</span></li>

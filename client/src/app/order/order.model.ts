@@ -1,7 +1,7 @@
 import { Product } from "../product/product.model";
 
 export interface Order {
-  id: number;
+  orderId: number;
   userId: number;
   totalPrice: number;
   nrProducts: number;

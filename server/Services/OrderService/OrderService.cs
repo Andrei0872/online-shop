@@ -50,5 +50,33 @@ namespace server.Services.OrderService
             }
         }
 
+    public async Task<List<OrderSummary>> GetAllOrdersSummary () {
+        var crtUserId = Int32.Parse(this._userService.GetCrtUserId());
+        
+        return await this._unitOfWork.Order
+            .GetAll()
+            .Where(o => o.UserID == crtUserId)
+            .Join(
+            this._unitOfWork.OrderProduct.GetAll(),
+                o => o.ID,
+                op => op.OrderID,
+                (o, op) => new {
+                    OrderId = o.ID,
+                    ProductId = op.ProductID,
+                    Quantity = op.Quantity,
+                    IssuedAt = o.IssuedAt,
+                    UserId = o.UserID
+                }
+            )
+            .Join(
+                this._unitOfWork.Product.GetAll(),
+                o => o.ProductId,
+                p => p.ID,
+                (orderProductsJoined, p) => new { OrderProductsJoined = orderProductsJoined, Price = p.Price }
+            )
+            .GroupBy(r => new { OrderId = r.OrderProductsJoined.OrderId, IssuedAt = r.OrderProductsJoined.IssuedAt, UserId = r.OrderProductsJoined.UserId })
+            .Select(r => new OrderSummary(r.Key.OrderId, r.Key.UserId, r.Key.IssuedAt, r.Count(), r.Sum(o => o.Price * o.OrderProductsJoined.Quantity)))
+            .ToListAsync();
+        }
     }
 }
