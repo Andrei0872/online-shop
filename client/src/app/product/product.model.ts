@@ -6,4 +6,4 @@ export interface Product {
   date: string;
 };
 
-export type AddProduct = Omit<Product, 'id' | 'date'>
+export type WritableProduct = Omit<Product, 'id' | 'date'>

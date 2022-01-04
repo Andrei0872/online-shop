@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { BehaviorSubject, filter, Observable, tap, map, Subject, catchError, EMPTY } from 'rxjs';
 import { Environment, ENV_CONFIG } from '../tokens';
-import { AddProduct, Product } from './product.model';
+import { WritableProduct, Product } from './product.model';
 
 @Injectable({
   providedIn: 'root'
@@ -33,12 +33,16 @@ export class ProductService {
     ).subscribe(p => this.products.next(p));
   }
 
-  addProduct (addProduct: AddProduct) {
-    return this.httpClient.post(this.URL, {
-      ...addProduct,
-      price: +addProduct.price,
-      category: +addProduct.category,
-    })
+  private normalizeWritableProductProperties (writableProperties: WritableProduct) {
+    return {
+      ...writableProperties,
+      price: +writableProperties.price,
+      category: +writableProperties.category,
+    }
+  }
+
+  addProduct (addProduct: WritableProduct) {
+    return this.httpClient.post(this.URL, this.normalizeWritableProductProperties(addProduct))
       .pipe(
         map(resp => (resp as any).data),
         catchError(err => (console.warn(err), this.errors.next(err), EMPTY))
@@ -47,5 +51,13 @@ export class ProductService {
 
   markProductsAsDirty () {
     this.products.next(null);
+  }
+
+  updatedProduct (updatedValues: WritableProduct, productId: number) {
+    const URL = `${this.URL}/${productId}`;
+    return this.httpClient.patch(URL, this.normalizeWritableProductProperties(updatedValues)).pipe(
+      map(resp => (resp as any).data),
+      catchError(err => (console.warn(err), this.errors.next(err), EMPTY)),
+    );
   }
 }

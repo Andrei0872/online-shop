@@ -1,6 +1,7 @@
 <h1>{{ title }}</h1>
 
 <form
+  *ngIf="isCurrentProductReady$ | async"
   class="single-product"
   #f="ngForm"
   (ngSubmit)="onSubmit(f.value)"

@@ -17,6 +17,9 @@
       </div>
     </div>
 
-    <!-- <button [routerLink]="['/products/update', p.id]" class="product__action">Edit</button> -->
+    <div *ngIf="isCurrentUserAdmin" class="product__actions">
+      <button [routerLink]="['/products/update', p.id]" class="product__action">Edit</button>
+      <button class="product__action">Delete</button>
+    </div>
   </article>
 </section>

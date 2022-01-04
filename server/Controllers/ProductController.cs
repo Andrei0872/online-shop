@@ -58,5 +58,23 @@ namespace server.Controllers
 
         return Ok(resp);
     }
+
+    [HttpPatch("{id}")]
+    [Authorize(Roles = UserRoleType.Admin)]
+    public async Task<IActionResult> UpdatedProduct (int id, [FromBody] AddProductDto updatedProductDto) {
+        var resp = new GenericResponse();
+
+        var existingProduct = await this._unitOfWork.Product.Get(id);
+        existingProduct.Name = updatedProductDto.Name;
+        existingProduct.Price = updatedProductDto.Price;
+        existingProduct.Category = updatedProductDto.Category;
+
+        this._unitOfWork.Product.Update(existingProduct);
+        await this._unitOfWork.SaveAsync();
+
+        resp.Data = "The product has been successfully updated.";
+
+        return Ok(resp);
+    }
     }
 }
