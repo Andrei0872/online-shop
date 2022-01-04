@@ -84,8 +84,6 @@ export class AuthComponent implements OnInit {
   }
 
   onSubmit (formValues: any) {
-    console.log(formValues);
-
     let body;
     let fnToCall;
     if (this.isRegisterMode) {

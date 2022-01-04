@@ -17,7 +17,7 @@
       >
         <label [for]="authField.propName">{{ authField.humanReadableName }}</label>
         <input
-          type="text"
+          [type]="authField.propName === 'password' ? 'password' : 'text'"
           [id]="authField.propName"
           [name]="authField.propName"
           [formControlName]="authField.propName"
