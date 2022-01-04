@@ -2,6 +2,7 @@
   height: 100%;
   display: flex;
   justify-content: center;
+  align-items: center;
   padding-top: 3rem;
 }
 
@@ -11,6 +12,7 @@
   flex-direction: column;
   gap: 2rem;
   align-items: center;
+  transform: translateY(-25%);
 
   &__header {
     display: flex;

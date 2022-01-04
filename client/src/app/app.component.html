@@ -19,7 +19,7 @@
   </nav>
 </header>
 
-<aside class="aside">
+<aside *ngIf="isAuthenticated$ | async" class="aside">
   <ul class="aside-links">
     <li routerLinkActive="is-active" routerLink="/products" class="aside-links__link">Products</li>
     <li routerLinkActive="is-active" routerLink="/orders" class="aside-links__link">Orders</li>
@@ -27,7 +27,7 @@
   </ul>
 </aside>
 
-<main class="main">
+<main [class.is-not-authenticated]="(isAuthenticated$ | async) === false" class="main">
   <router-outlet></router-outlet>
 </main>
 
