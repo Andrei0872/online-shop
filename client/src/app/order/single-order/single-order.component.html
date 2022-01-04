@@ -20,13 +20,15 @@
     </p>
   </section>
 
-  <button
-    class="button"
-    (click)="submitOrder(order.products)"
-    *ngIf="!isInspectingExistingOrder"
-  >
-    Submit order
-  </button>
+  <div *ngIf="!isInspectingExistingOrder" class="single-order__actions">
+    <button class="button" (click)="submitOrder(order.products)">
+      Submit order
+    </button>
+
+    <button class="button button--danger" (click)="emptyOutCart()">
+      Empty out cart
+    </button>
+  </div>
 </ng-template>
 
 <ng-template #empty>

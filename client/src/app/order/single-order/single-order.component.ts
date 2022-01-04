@@ -59,4 +59,8 @@ export class SingleOrderComponent implements OnInit {
         this.router.navigateByUrl("/orders");
       });
   }
+
+  emptyOutCart () {
+    this.orderService.emptyCurrentCart();
+  }
 }
