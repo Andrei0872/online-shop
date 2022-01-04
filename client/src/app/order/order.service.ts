@@ -93,6 +93,14 @@ export class OrderService {
     this.orders.next(null);
   }
 
+  // Use case: as an admin, a user's order has been viewed,
+  // so, `currentOrder` will **not** be null. Then, the admin updated
+  // a product. There is a chance the updated product is part of the previously
+  // viewed order's products, so we need to ensure that there is no stale data.
+  markCurrentOrderAsDirty () {
+    this.currentOrder.next(null);
+  }
+
   emptyCurrentCart () {
     this.cart.next([]);
   }
