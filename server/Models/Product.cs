@@ -16,5 +16,9 @@ namespace server.Models
         public DateTime AddedAt { get; set; }
 
         public ICollection<OrderProduct> Orders { get; set; }
+        public Product()
+        {
+            AddedAt = DateTime.UtcNow;
+        }
     }
 }

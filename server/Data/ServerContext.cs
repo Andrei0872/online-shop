@@ -54,6 +54,10 @@ namespace server.Data
             modelBuilder.Entity<Order>()
                 .Property(o => o.ID)
                 .ValueGeneratedOnAdd();
+            
+            modelBuilder.Entity<Product>()
+                .Property(p => p.ID)
+                .ValueGeneratedOnAdd();
 
             modelBuilder.Seed();
         }
