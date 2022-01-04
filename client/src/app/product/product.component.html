@@ -1,16 +1,22 @@
-<article
-  class="product"
-  (click)="onProductClick(p)"
-  *ngFor="let p of (products$ | async)"
->
-  <h2 class="product__header">{{ p.name }}</h2>
+<button *ngIf="isCurrentUserAdmin" routerLink="/products/add" class="button">Add Product</button>
 
-  <div class="product__body">
-    <img class="product__image" [src]="'../../assets/products/product' + p.id + '.jpg'" [alt]="'Image for product ' + p.id">
-
-    <div class="product__info">
-      <div class="product__price">Price: <span class="is-highlighted">{{ p.price }}</span></div>
-      <div class="product__category">Category: <span class="is-highlighted">{{ p.category }}</span></div>
+<section class="product-container">
+  <article
+    class="product"
+    (click)="onProductClick(p)"
+    *ngFor="let p of (products$ | async)"
+  >
+    <h2 class="product__header">{{ p.name }}</h2>
+  
+    <div class="product__body">
+      <img class="product__image" [src]="'../../assets/products/product' + (p.id <= 10 ? p.id : (p.id % 10)) + '.jpg'" [alt]="'Image for product ' + p.id">
+  
+      <div class="product__info">
+        <div class="product__price">Price: <span class="is-highlighted">{{ p.price }}</span></div>
+        <div class="product__category">Category: <span class="is-highlighted">{{ p.category }}</span></div>
+      </div>
     </div>
-  </div>
-</article>
+
+    <!-- <button [routerLink]="['/products/update', p.id]" class="product__action">Edit</button> -->
+  </article>
+</section>

@@ -1,11 +1,16 @@
 :host {
-  display: grid;
   height: 100%;
+  display: block;
   overflow-y: auto;
+  padding: 2rem 1rem;
+}
+
+.product-container {
+  display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   align-items: flex-start;
   gap: 2rem;
-  padding: 2rem 1rem;
+  margin-block-start: 2rem;
 }
 
 .product {
@@ -66,5 +71,9 @@
 
   &__header {
     text-align: center;
-  } 
+  }
+
+  &__action {
+    z-index: 3;
+  }
 }

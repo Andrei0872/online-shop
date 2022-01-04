@@ -5,3 +5,5 @@ export interface Product {
   category: string;
   date: string;
 };
+
+export type AddProduct = Omit<Product, 'id' | 'date'>
