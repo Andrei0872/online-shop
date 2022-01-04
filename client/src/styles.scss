@@ -9,6 +9,7 @@
   --light-gray-color: #d0d7dd;
   --dark-blue-color: #061A40;
   --dark-blue-2-color: #0d3e5a;
+  --danger-color: #E7634B;
 }
 
 html, body {
@@ -54,7 +55,12 @@ body {
   cursor: pointer;
   font-size: 1rem;
 
-  &:hover {
+  &:hover:not(&--danger) {
     background-color: var(--yellow-color);
+  }
+
+  &--danger {
+    background-color: var(--danger-color);
+    color: #fff;
   }
 }
